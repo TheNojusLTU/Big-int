@@ -7,7 +7,7 @@ typedef struct {
     char *value;
     char sign;
     long NumSize;
-    void *isInitialised;
+    void *IsInitialized;
 } BigInt;
 
 #endif
