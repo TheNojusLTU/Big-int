@@ -10,4 +10,7 @@ typedef struct {
     void *IsInitialized;
 } BigInt;
 
+int IsNumber(char number[]);
+void BigIntInitialization(BigInt *A);
+
 #endif
