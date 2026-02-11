@@ -4,6 +4,7 @@
 ## Functionality
 - [x] Big int structure
 - [x] initialization function
+- [x] IsNumber function
 - [ ] Value change function
 - [ ] Return value of big int function
 - [ ] Adition of big ints

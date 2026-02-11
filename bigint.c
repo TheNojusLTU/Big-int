@@ -10,17 +10,13 @@ void BigIntInitialization(BigInt *A){
     A->value = NULL;
 }
 
-int IsNumber(char number[]){//neveikia kolkas
+int IsNumber(char number[]){
     int n = strlen(number);
     int test = 0;
     for(int i = 0; i < n; i++){
-        if((i == 0)&&((number[i] >= '0' && number[i] <= '9')||number[i] == '-')){
-            test++;
-        }
-        else if(number[i] >= '0' && number[i] <= '9'){
-            test++;
-            printf("%d:%d\n", n, i);
+        if(!(((i == 0)&&((number[i] >= '0' && number[i] <= '9')||number[i] == '-'))||(number[i] >= '0' && number[i] <= '9'))){
+            return 0;
         }
     }
-    return test;
+    return 1;
 }
