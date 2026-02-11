@@ -14,10 +14,10 @@ int IsNumber(char number[]){//neveikia kolkas
     int n = strlen(number);
     int test = 0;
     for(int i = 0; i < n; i++){
-        if((i == n-1)){
+        if((i == 0)&&((number[i] >= '0' && number[i] <= '9')||number[i] == '-')){
             test++;
         }
-        else if(number[i] >= '0' && number[i] <= '9' && (i != n-1)){
+        else if(number[i] >= '0' && number[i] <= '9'){
             test++;
             printf("%d:%d\n", n, i);
         }
