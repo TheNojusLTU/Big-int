@@ -28,10 +28,10 @@ int SaveNumber(BigInt *A, char number[]){
     int start = 0;
 
     if(number[0] == '-'){
-        A->sign = -1;
+        A->sign = 1;
         start = 1;
     } else {
-        A->sign = 1;
+        A->sign = 0;
     }
     A->NumSize = n - start;
 
