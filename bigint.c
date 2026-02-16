@@ -4,7 +4,7 @@
 #include "bigint.h"
 
 void BigIntInitialization(BigInt *A){
-    A->IsInitialized = NULL;
+    A->IsInitialized = 0;
     A->NumSize = 0;
     A->sign = 0;
     A->value = NULL;
@@ -19,4 +19,34 @@ int IsNumber(char number[]){
         }
     }
     return 1;
+}
+int SaveNumber(BigInt *A, char number[]){
+    if(IsNumber(number)==0)
+        return 0;
+    
+    int n = strlen(number);
+    int start = 0;
+
+    if(number[0] == '-'){
+        A->sign = -1;
+        start = 1;
+    } else {
+        A->sign = 1;
+    }
+    A->NumSize = n - start;
+
+    A->value = malloc(A->NumSize * sizeof(char));
+
+    if (A->value == NULL)
+        return 0;
+
+    int index = 0;
+    for (int i = n - 1; i >= start; i--) {
+        A->value[index++] = number[i];
+    }
+
+    A->IsInitialized = (void*)1;
+
+    return 1;
+
 }
