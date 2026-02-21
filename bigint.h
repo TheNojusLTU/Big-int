@@ -12,5 +12,10 @@ typedef struct {
 
 int IsNumber(char number[]);
 void BigIntInitialization(BigInt *A);
+int SaveNumber(BigInt *A, char number[]);
+int SubtractBigInt(BigInt *result, const BigInt *A, const BigInt *B);
+int SubtractFunc(BigInt *result, const BigInt *A, const BigInt *B);
+int CompareNum(const BigInt *A, const BigInt *B);
+
 
 #endif
