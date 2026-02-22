@@ -33,6 +33,11 @@ int SaveNumber(BigInt *A, char number[]){
     } else {
         A->sign = 0;
     }
+
+    while (start < n - 1 && number[start] == '0') {
+        start++;
+    }//skip the leazing zeros
+
     A->NumSize = n - start;
     char *temp = realloc(A->value, A->NumSize*sizeof(char));
     if (temp == NULL)
@@ -133,6 +138,10 @@ int SubtractFunc(BigInt *result, const BigInt *A, const BigInt *B){
     result->NumSize = size;
     result->sign = 0;
     result->IsInitialized = (void*)1;
+
+    if (size == 1 && result->value[0] == '0') {
+        result->sign = 0;
+    }
 
     return 1;
 }
@@ -253,7 +262,6 @@ int AddFunc(BigInt *result, const BigInt *A, const BigInt *B){
     }
     if(carry == 1){
         resultSize++;
-        return 0;
         temp[resultSize-1] = '1';
     }
 
@@ -264,5 +272,24 @@ int AddFunc(BigInt *result, const BigInt *A, const BigInt *B){
         result->sign = A->sign;
     else 
         result->sign = 0;
+
+    if (resultSize == 1 && result->value[0] == '0') {
+        result->sign = 0;
+    }
+
     return 1;
+}
+char* ReturnBigInt(BigInt *A){
+    char *temp = malloc(sizeof(char)*A->NumSize+2);
+    if(temp == NULL)
+        return NULL;
+    int offset = 0;
+    if(A->sign == 1)
+        temp[offset++] = '-';
+    for(int i = 0; i < A->NumSize; i++){
+        temp[i+offset] = A->value[A->NumSize-1-i];
+    }
+    temp[A->NumSize+offset] = '\0';
+    
+    return temp;
 }

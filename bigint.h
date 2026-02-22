@@ -18,6 +18,7 @@ int SubtractFunc(BigInt *result, const BigInt *A, const BigInt *B);
 int CompareNum(const BigInt *A, const BigInt *B);
 int AddBigInt(BigInt *result, const BigInt *A, const BigInt *B);
 int AddFunc(BigInt *result, const BigInt *A, const BigInt *B);
+char* ReturnBigInt(BigInt *A);
 
 
 #endif
