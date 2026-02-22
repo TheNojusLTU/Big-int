@@ -14,7 +14,7 @@ int IsNumber(char number[]){
     int n = strlen(number);
     int test = 0;
     for(int i = 0; i < n; i++){
-        if(!(((i == 0)&&((number[i] >= '0' && number[i] <= '9')||number[i] == '-'))||(number[i] >= '0' && number[i] <= '9'))){
+        if(!(((i == 0)&&((number[i] >= '0' && number[i] <= '9')||(number[i] == '-'&& n != 1)))||(number[i] >= '0' && number[i] <= '9'))){
             return 0;
         }
     }
@@ -34,7 +34,6 @@ int SaveNumber(BigInt *A, char number[]){
         A->sign = 0;
     }
     A->NumSize = n - start;
-
     char *temp = realloc(A->value, A->NumSize*sizeof(char));
     if (temp == NULL)
         return 0;
@@ -58,13 +57,13 @@ int SubtractBigInt(BigInt *result, const BigInt *A, const BigInt *B){
 
     //   + -
     if(A->sign ==0 && B->sign == 1){
-      //  return SUDETIES FUNKC
+        return AddFunc(result, A, B);
     }
 
     // - +
     if(A->sign == 1 && B->sign == 0)
     {
-        // sudetis
+        return AddFunc(result, A, B);
     }
 
     // - -
@@ -155,4 +154,115 @@ int CompareNum(const BigInt *A, const BigInt *B)
     }
 
     return 0;
+}
+int AddBigInt(BigInt *result, const BigInt *A, const BigInt *B){
+
+    if(A->IsInitialized==NULL || B->IsInitialized==NULL)
+        return 0;
+
+    //   + -  -
+    if(A->sign ==0 && B->sign == 1){
+        int cmp = CompareNum(A, B);
+
+        if (cmp == 0) {
+            SaveNumber(result, "0");
+            return 1;
+        } 
+        else if (cmp > 0) {
+            SubtractFunc(result, A, B);
+            result->sign = A->sign; 
+        } 
+        else {
+            SubtractFunc(result, B, A);
+            result->sign = B->sign; 
+        }
+        return 1;
+        }
+
+    //   - +  -
+    else if(A->sign == 1 && B->sign == 0)
+    {
+        int cmp = CompareNum(A, B);
+
+        if (cmp == 0) {
+            SaveNumber(result, "0");
+            return 1;
+        } 
+        else if (cmp > 0) {
+            SubtractFunc(result, A, B);
+            result->sign = A->sign; 
+        } 
+        else {
+            SubtractFunc(result, B, A);
+            result->sign = B->sign; 
+        }
+        return 1;
+    }
+
+    //   - -  +
+    else if(A->sign == 1 && B->sign == 1){
+        return AddFunc(result, A, B);
+    }
+
+    //   + +  +
+    else if(A->sign == 0 && B->sign == 0){
+        return AddFunc(result, A, B);
+    }
+    return 0;
+}
+int AddFunc(BigInt *result, const BigInt *A, const BigInt *B){
+    int carry = 0;
+    int n;
+    char *temp = NULL;
+    int resultSize;
+    if(A->NumSize >= B->NumSize){
+        n = B->NumSize;
+        resultSize = A->NumSize;
+    }else{
+        n = A->NumSize;
+        resultSize = B->NumSize;
+    }
+    temp = malloc(sizeof(char)*resultSize+1);
+    if (temp == NULL) 
+        return 0;
+
+    for(int i = 0; i < n; i++){
+        temp[i] = A->value[i] + B->value[i] - '0' + carry;
+        if(temp[i] > '9'){
+            temp[i] = temp[i] - 10;
+            carry = 1;
+        }else carry = 0;
+    }
+    if(A->NumSize > B->NumSize){
+        for(int i = n; i < A->NumSize; i++){
+            temp[i] = A->value[i] + carry;
+            if(temp[i] > '9'){
+                temp[i] = temp[i] - 10;
+                carry = 1;
+            }else carry = 0;
+        }
+    }
+    if(A->NumSize < B->NumSize){
+        for(int i = n; i < B->NumSize; i++){
+            temp[i] = B->value[i] + carry;
+            if(temp[i] > '9'){
+                temp[i] = temp[i] - 10;
+                carry = 1;
+            }else carry = 0;
+        }
+    }
+    if(carry == 1){
+        resultSize++;
+        return 0;
+        temp[resultSize-1] = '1';
+    }
+
+    result->NumSize = resultSize;
+    free(result->value);
+    result->value = temp;
+    if(A->sign == B->sign)
+        result->sign = A->sign;
+    else 
+        result->sign = 0;
+    return 1;
 }
