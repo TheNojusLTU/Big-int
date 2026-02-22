@@ -36,7 +36,7 @@ int SaveNumber(BigInt *A, char number[]){
 
     while (start < n - 1 && number[start] == '0') {
         start++;
-    }//skip the leazing zeros
+    }//skip the leading zeros
 
     A->NumSize = n - start;
     char *temp = realloc(A->value, A->NumSize*sizeof(char));
