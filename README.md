@@ -34,7 +34,7 @@ DestroyBigInt(&YourBigInt);
 ```
 
 All functions upon successful completion return a 1 and a 0 if they fail apart from the ReturnBigInt function which after successful vompletion returns the value of the BigInt as a string or upon failure NULL
-
+***
 ## Functionality
 - [x] Big int structure
 - [x] initialization function
