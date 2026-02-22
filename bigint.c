@@ -293,3 +293,12 @@ char* ReturnBigInt(BigInt *A){
     
     return temp;
 }
+void DestroyBigInt(BigInt *A){
+    if(A != NULL){
+        free(A->value);
+        A->value = NULL;
+        A->sign = 0;
+        A->NumSize = 0;
+        A->IsInitialized = (void *)0;
+    }
+}
