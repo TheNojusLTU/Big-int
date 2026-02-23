@@ -23,7 +23,7 @@ To add two big ints use:
 ```c
 AddBigInt(ResultingBigInt, FirstBigInt, SecondBigInt);
 ```
-To get a string value of the BigInt use:
+To get a string value of the BigInt use. ALWAYS SAVE IT IN A CHAR ARRAY OR IT WILL CUASE A MEMEMORY LEAK:
 ```c
 ReturnBigInt(&YourBigInt);
 ```
