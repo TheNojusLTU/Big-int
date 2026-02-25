@@ -20,6 +20,7 @@ int AddBigInt(BigInt *result, const BigInt *A, const BigInt *B);// Use this func
 int AddFunc(BigInt *result, const BigInt *A, const BigInt *B);
 char* ReturnBigInt(BigInt *A);// This function returns big int as a string that you can print
 void DestroyBigInt(BigInt *A);// Use this function when you dont need the BigInt anymore. BEFORE USING AGAIN INITIALIZE IT AGAIN
+int MultiplyBigInt(BigInt *result, const BigInt *A, const BigInt *B);// Use this function to multiply two big ints
 
 
 #endif

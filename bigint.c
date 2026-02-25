@@ -282,7 +282,7 @@ int AddFunc(BigInt *result, const BigInt *A, const BigInt *B){
 char* ReturnBigInt(BigInt *A){
     char *temp = malloc(sizeof(char)*A->NumSize+2);
     if(temp == NULL)
-        return NULL;
+        return 0;
     int offset = 0;
     if(A->sign == 1)
         temp[offset++] = '-';
@@ -301,4 +301,52 @@ void DestroyBigInt(BigInt *A){
         A->NumSize = 0;
         A->IsInitialized = (void *)0;
     }
+}
+int MultiplyBigInt(BigInt *result, const BigInt *A, const BigInt *B){
+    if(A->IsInitialized==NULL || B->IsInitialized==NULL)
+        return 0;
+    if((A->NumSize == 1 && A->value[0] == '0')||(B->NumSize == 1 && B->value[0] == '0')){
+        result->sign = 0;
+        result->NumSize = 1;
+        free(result->value);
+        char *zero = malloc(sizeof(char));
+        zero[0] = '0';
+        result->value = zero;
+        return 1;
+    }
+        int resultSize = A->NumSize + B->NumSize;
+    char *temp = malloc(sizeof(char)*resultSize);
+    if(temp == NULL)
+        return 0;
+
+    
+    for(int i = 0; i < resultSize; i++){
+        temp[i] = '0';
+    }
+    
+    int current;
+    int carry = 0;
+    for(int i = 0; i < B->NumSize; i++){
+        carry = 0;
+        for(int u = 0; u < A->NumSize; u++){
+            current = (temp[u+i]-'0') + (A->value[u]-'0')*(B->value[i]-'0')+carry;
+            
+            carry = current/10;
+            temp[u+i] = current % 10 + '0';
+        }
+        int k = i + A->NumSize;
+        while (carry > 0 && k < resultSize) {
+            int current = (temp[k] - '0') + carry;
+            temp[k] = (current % 10) + '0';
+            carry = current / 10;
+            k++;
+        }
+    }
+    if(temp[resultSize-1] == '0'&& resultSize > 1)resultSize--;
+    if(A->sign != B->sign)
+        result->sign = 1;
+    result->NumSize = resultSize;
+    free(result->value);
+    result->value = temp;
+    return 1;
 }

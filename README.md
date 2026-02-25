@@ -32,6 +32,10 @@ To destroy a BigInt use:
 DestroyBigInt(&YourBigInt);
 //If after destroying a BigInt you want to use it again you have to initialize it first
 ```
+To multiply two BigInts use:
+```c
+MultiplyBigInt(ResultingBigInt, FirstBigInt, SecondBigInt);
+```
 
 All functions upon successful completion return a 1 and a 0 if they fail apart from the ReturnBigInt function which after successful vompletion returns the value of the BigInt as a string or upon failure NULL
 ***
