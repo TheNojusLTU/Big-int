@@ -350,3 +350,97 @@ int MultiplyBigInt(BigInt *result, const BigInt *A, const BigInt *B){
     result->value = temp;
     return 1;
 }
+int DivideBigInt(BigInt *quotient,BigInt *remainder,const BigInt *A, const BigInt *B){
+    if(A->IsInitialized == NULL || B->IsInitialized == NULL)
+        return 0;
+
+    if (B->NumSize == 1 && B->value[0] == '0')
+        return 0;
+
+    BigInt current;
+    BigIntInitialization(&current);
+    SaveNumber(&current, "0");
+
+    char *qDigits = malloc(A->NumSize * sizeof(char));
+    if (!qDigits)
+        return 0;
+
+    int qIndex=0;
+
+    BigInt absB = *B;
+    absB.sign = 0;
+
+
+    for (int i = A->NumSize - 1; i >= 0; i--)
+    {
+
+        if (!(current.NumSize == 1 && current.value[0] == '0'))
+        {
+            current.value = realloc(current.value, current.NumSize + 1);
+            memmove(current.value + 1, current.value, current.NumSize);
+            current.value[0] = '0';
+
+            current.NumSize++;
+        }
+
+        current.value[0] = A->value[i];
+
+        while (current.NumSize > 1 &&
+               current.value[current.NumSize - 1] == '0')
+        {
+            current.NumSize--;
+        }
+
+        int count = 0;
+
+        while (CompareNum(&current, &absB) >= 0)
+        {
+            SubtractFunc(&current, &current, &absB);
+            count++;
+        }
+
+        qDigits[qIndex++] = count + '0';
+    }
+
+    int start = 0;
+    while (start < qIndex - 1 && qDigits[start] == '0')
+        start++;
+
+    int finalSize = qIndex - start;
+
+    char *tmpq = realloc(quotient->value, finalSize);
+    if (!tmpq) {
+        free(qDigits);
+        DestroyBigInt(&current);
+        return 0;
+    }
+    quotient->value = tmpq;
+    quotient->NumSize = finalSize;
+
+    for (int i = 0; i < finalSize; i++)
+        quotient->value[i] = qDigits[qIndex - 1 - i];
+
+    quotient->sign = (A->sign != B->sign);
+
+    quotient->IsInitialized = (void*)1;
+
+    char *tmpr = realloc(remainder->value, current.NumSize);
+    if (!tmpr) {
+        free(qDigits);
+        DestroyBigInt(&current);
+        return 0;
+    }
+    remainder->value = tmpr;
+    memcpy(remainder->value, current.value, current.NumSize);
+    remainder->NumSize = current.NumSize;
+
+    remainder->sign = A->sign;
+
+    remainder->IsInitialized = (void*)1;
+
+    free(qDigits);
+    DestroyBigInt(&current);
+
+    return 1;
+
+}
