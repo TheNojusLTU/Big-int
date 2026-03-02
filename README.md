@@ -36,6 +36,10 @@ To multiply two BigInts use:
 ```c
 MultiplyBigInt(ResultingBigInt, FirstBigInt, SecondBigInt);
 ```
+To divide two BigInts use: 
+```c
+int DivideBigInt(ResultQuotientBigInt,ResultRemainderBigInt,FirstBigInt, SecondBigInt);
+```
 
 All functions upon successful completion return a 1 and a 0 if they fail apart from the ReturnBigInt function which after successful vompletion returns the value of the BigInt as a string or upon failure NULL
 ***
@@ -47,3 +51,5 @@ All functions upon successful completion return a 1 and a 0 if they fail apart f
 - [x] Return value of big int function
 - [x] Adition of big ints
 - [x] Subtraction of big ints
+- [x] Multiplication of big ints
+- [x] Division of big ints
